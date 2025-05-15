@@ -16,9 +16,11 @@ public class MenuItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long itemId;
-	@ManyToOne
-	@JoinColumn(name = "restaurant_id")
+
+	@ManyToOne(fetch = FetchType.LAZY) // Lazy fetching is usually preferred for ManyToOne
+	@JoinColumn(name = "restaurant_id", nullable = false) // Make sure a menu item always has a restaurant
 	private Restaurant restaurant;
+
 	private String name;
 	private String description;
 	private BigDecimal price;
