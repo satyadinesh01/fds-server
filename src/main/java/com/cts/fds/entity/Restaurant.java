@@ -1,5 +1,7 @@
 package com.cts.fds.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +21,8 @@ public class Restaurant {
 	private String address;
 	private String phone;
 	private String email;
+	
+	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MenuItem> menuItems;
 
 }
