@@ -7,22 +7,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/deliveries")
+@RequestMapping("/api/delivery")
 public class DeliveryController {
-	
-	@GetMapping("/{deliveryId}")
-    public String getDeliveryDetails() {
-        return "Get Delivery id";
+
+    @Autowired
+    private DeliveryService deliveryService;
+
+    @PostMapping("/assign")
+    public ResponseEntity<Delivery> assignDelivery(@RequestBody Delivery delivery) {
+        return new ResponseEntity<>(deliveryService.assignDeliveryAgent(delivery), HttpStatus.CREATED);
     }
 
-    @PostMapping("/{deliveryId}/status")
-    public String updateDeliveryStatus() {
-        return "Post delivery status";
+    @PutMapping("/status/{id}")
+    public ResponseEntity<Delivery> updateStatus(@PathVariable Long id, @RequestParam DeliveryStatus status) {
+        return ResponseEntity.ok(deliveryService.updateDeliveryStatus(id, status));
     }
 
-    @PutMapping("/{deliveryId}/eta")
-    public String updateEstimatedTimeOfArrival() {
-        return "Put delivery time";
+    @GetMapping("/agent/{agentId}")
+    public ResponseEntity<List<Delivery>> getByAgent(@PathVariable Long agentId) {
+        return ResponseEntity.ok(deliveryService.getDeliveriesByAgent(agentId));
     }
 
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<Delivery> getByOrderId(@PathVariable Long orderId) {
+        return ResponseEntity.ok(deliveryService.getDeliveryByOrderId(orderId));
+    }
 }
