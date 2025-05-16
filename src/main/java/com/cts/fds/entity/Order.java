@@ -26,5 +26,6 @@ public class Order {
 	private BigDecimal totalAmount;
 	private String status;
 	private Timestamp orderDate;
+	private String deliveryAddress;
 
 }
